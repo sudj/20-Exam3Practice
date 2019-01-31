@@ -6,8 +6,8 @@ This problem provides practice at:
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Daniel Su.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ###############################################################################
 # Students:
@@ -30,6 +30,7 @@ Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
 ###############################################################################
 
 import rosegraphics as rg
+import math
 
 
 def main():
@@ -90,7 +91,7 @@ def hourglass(window, n, point, radius, color):
     a color that rosegraphics understands.
     """
     # -------------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #       We provided some tests for you (above).
     # -------------------------------------------------------------------------
     ###########################################################################
@@ -102,6 +103,49 @@ def hourglass(window, n, point, radius, color):
     #    DIFFICULTY:      8
     #    TIME ESTIMATE:  25 minutes (warning: this problem is challenging)
     # -------------------------------------------------------------------------
+    begin_x = point.x
+    begin_y = point.y
+    circle = rg.Circle(rg.Point(point.x, point.y), radius)
+    circle.attach_to(window)
+    circle.fill_color = color
+    window.render()
+    moving_unit = radius
+    for k in range(n - 1):
+        line = rg.Line(rg.Point(point.x - radius, point.y), rg.Point(point.x + radius, point.y))
+        line.attach_to(window)
+        window.render()
+        point.x = point.x - moving_unit
+        point.y = point.y - math.sqrt(3)*moving_unit
+        for j in range(k + 2):
+            row_circle = rg.Circle(rg.Point(point.x + j*2*radius, point.y), radius)
+            row_circle.fill_color = color
+            row_circle.attach_to(window)
+            window.render()
+            row_line = rg.Line(rg.Point(row_circle.center.x + radius, row_circle.center.y), rg.Point(row_circle.center.x - radius, row_circle.center.y))
+            row_line.attach_to(window)
+            window.render()
+        line = rg.Line(rg.Point(point.x - radius, point.y), rg.Point(point.x + radius, point.y))
+        line.attach_to(window)
+        window.render()
+    point.x = begin_x
+    point.y = begin_y
+    for k in range(n - 1):
+        line = rg.Line(rg.Point(point.x - radius, point.y), rg.Point(point.x + radius, point.y))
+        line.attach_to(window)
+        window.render()
+        point.x = point.x - moving_unit
+        point.y = point.y + math.sqrt(3)*moving_unit
+        for j in range(k + 2):
+            row_circle = rg.Circle(rg.Point(point.x + j*2*radius, point.y), radius)
+            row_circle.fill_color = color
+            row_circle.attach_to(window)
+            window.render()
+            row_line = rg.Line(rg.Point(row_circle.center.x + radius, row_circle.center.y), rg.Point(row_circle.center.x - radius, row_circle.center.y))
+            row_line.attach_to(window)
+            window.render()
+        line = rg.Line(rg.Point(point.x - radius, point.y), rg.Point(point.x + radius, point.y))
+        line.attach_to(window)
+        window.render()
 
 
 def run_test_many_hourglasses():
@@ -164,7 +208,7 @@ def many_hourglasses(window, square, m, colors):
     each of which denotes a color that rosegraphics understands.
     """
     # -------------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #       We provided some tests for you (above).
     # -------------------------------------------------------------------------
     ###########################################################################
@@ -180,6 +224,55 @@ def many_hourglasses(window, square, m, colors):
     #                         a correct "hourglass" function above)
     #    TIME ESTIMATE:  20 minutes (warning: this problem is challenging)
     # -------------------------------------------------------------------------
+    radius = square.length_of_each_side / 2
+    moving_unit = radius
+    for k in range(m):
+        rectangle = rg.Rectangle(rg.Point(square.center.x - radius - (k * moving_unit), square.center.y + radius + (k * math.sqrt(3)*moving_unit)), rg.Point(square.center.x + radius + (k * moving_unit), square.center.y - radius - (k * math.sqrt(3)*moving_unit)))
+        rectangle.attach_to(window)
+        begin_center_x = square.center.x
+        begin_center_y = square.center.y
+        circle = rg.Circle(square.center, radius)
+        circle.attach_to(window)
+        circle.fill_color = colors[(((len(colors)) +k) %(len(colors)))]
+        line = rg.Line(rg.Point(square.center.x - radius, square.center.y), rg.Point(square.center.x + radius, square.center.y))
+        line.attach_to(window)
+        window.render()
+
+        for j in range(k):
+            square.center.x = square.center.x - moving_unit
+            square.center.y = square.center.y - math.sqrt(3) * moving_unit
+            for l in range(j + 2):
+                row_circle = rg.Circle(rg.Point(square.center.x + l * 2 * radius, square.center.y), radius)
+                row_circle.fill_color = colors[(((len(colors)) +k) %(len(colors)))]
+                row_circle.attach_to(window)
+                window.render()
+                row_line = rg.Line(rg.Point(row_circle.center.x + radius, row_circle.center.y), rg.Point(row_circle.center.x - radius, row_circle.center.y))
+                row_line.attach_to(window)
+                window.render()
+        square.center.x = begin_center_x
+        square.center.y = begin_center_y
+        for j in range(k):
+            square.center.x = square.center.x - moving_unit
+            square.center.y = square.center.y + math.sqrt(3) * moving_unit
+            for l in range(j + 2):
+                row_circle = rg.Circle(rg.Point(square.center.x + l * 2 * radius, square.center.y), radius)
+                row_circle.fill_color = colors[(((len(colors)) +k) %(len(colors)))]
+                row_circle.attach_to(window)
+                window.render()
+                row_line = rg.Line(rg.Point(row_circle.center.x + radius, row_circle.center.y), rg.Point(row_circle.center.x - radius, row_circle.center.y))
+                row_line.attach_to(window)
+                window.render()
+        square.center.x = begin_center_x
+        square.center.y = begin_center_y
+
+        square.center.x = square.center.x + ((3 + k * 2) * radius)
+
+
+
+
+
+
+
 
 
 # -----------------------------------------------------------------------------

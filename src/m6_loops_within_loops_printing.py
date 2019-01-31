@@ -6,8 +6,8 @@ This problem provides practice at:
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Daniel Su.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ###############################################################################
 # Students:
@@ -76,7 +76,7 @@ def shape(r):
     For purposes of "lining up", assume r is a single digit.
     """
     # -------------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #          Some tests are already written for you (above).
     #
     ###########################################################################
@@ -88,6 +88,24 @@ def shape(r):
     #    DIFFICULTY:      7
     #    TIME ESTIMATE:  15 minutes.
     # -------------------------------------------------------------------------
+    for k in range(r):
+        for j in range(k):
+            print(' ', end='')
+        for l in range(r - k):
+            print('+', end='')
+        print('!', end='')
+        for m in range(r - k):
+            if ((r-k) is r) and ((r - k - m) is 1):
+                print((r-k)-m)
+            else:
+                print(str((r-k)-m), end='')
+        for n in range(k):
+            if n is k-1:
+                print('-')
+            else:
+                print('-', end='')
+
+
 
 
 # -----------------------------------------------------------------------------
